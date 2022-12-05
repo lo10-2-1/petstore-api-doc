@@ -8,13 +8,15 @@ With the Petstore API, you can manage such data as:
 * Users, whether it would be employees or customers.
 * Store purchases like pets, inventory, etc.
 
-Although the Petstore API contains a big variety of methods, in this article we will observe only a few of them to give you a brief explanation of how you can use the Petstore API in general.
+Although the Petstore API includes a big variety of methods, in this article we will observe only a few of them to give you a brief explanation of how you can use the Petstore API in general.
 
 ## Usage
 
 We will use methods containing pets database as an example.
 
-### Pet object
+Use a **Pet** object for operations with pets.
+
+### Pet parameters
 
 |Parameter|Type|Description|
 |-----------|-----------|-----------|
@@ -58,14 +60,76 @@ We will use methods containing pets database as an example.
 
 ### Add pet to database
 
+Use a `POST /pet` method to add the pet in your database. The request should contain the [pet object](#pet-object) as a request body.
 
+#### Request example
+
+```sh
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "doggie",
+  "photoUrls": [
+    "url.com/my-url"
+  ]
+}'
+```
+
+#### Response types
+
+|Code|Description|
+|--------|------------|
+|200|Success. The request body will be returned.|
+|405|Invalid input. Check the required parameters.|
 
 ### Find pet by its ID
 
+Use a `GET /pet/{petId}` method to find the pet in your database.
 
+The pet ID is required in the request header.
+
+#### Request example
+
+```sh
+curl -X 'GET' \
+  'https://petstore.swagger.io/v2/pet/234234234' \
+  -H 'accept: application/json'
+```
+
+#### Response types
+
+|Code|Description|
+|--------|------------|
+|200|Success. The [pet object](#pet-object) will be returned.|
+|400|Invalid pet ID supplied in the request.|
+|404|Pet wasn't found.|
 
 ### Delete pet from database
 
+Use a `DELETE /pet/{petId}` method to delete the pet from your database.
+
+The pet ID is required in the request header. 
+
+For the security purposes, you can specify an optional `api_key` parameter. Use `special-key` value to test this method.
+
+#### Request example
+
+```sh
+curl -X 'DELETE' \
+  'https://petstore.swagger.io/v2/pet/234234234' \
+  -H 'accept: application/json' \
+  -H 'api_key: special-key'
+```
+
+#### Response types
+
+|Code|Description|
+|--------|------------|
+|200|Success. The pet ID will be returned.|
+|400|Invalid pet ID supplied in the request.|
+|404|Pet wasn't found.|
 
 ## Integration example
 
